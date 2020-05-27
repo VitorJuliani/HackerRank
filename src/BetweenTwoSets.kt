@@ -1,8 +1,5 @@
 fun getTotalX(a: Array<Int>, b: Array<Int>): Int {
 
-    // eu não me orgulho desse codigo
-    //TODO REFACTOR URGENTE
-
     val sumOfArrays = a.size + b.size
     val mergeOfArrays = Array<Int>(sumOfArrays) {
         0
@@ -22,28 +19,14 @@ fun getTotalX(a: Array<Int>, b: Array<Int>): Int {
 
     mergeOfArrays.sort()
 
-    var quantity = 0
-
-    for (value in mergeOfArrays[0]..mergeOfArrays[mergeOfArrays.size - 1]) {
-        for ((aIndex, aValue) in a.withIndex()) {
-            if (value.rem(aValue) != 0) {
-                break
-            } else {
-                if (value.rem(aValue) == 0 && aIndex == a.size - 1) {
-                    for ((bIndex, bValue) in b.withIndex()) {
-                        if (bValue.rem(value) != 0) {
-                            break
-                        }
-                        if (bValue.rem(value) == 0 && bIndex == b.size - 1) {
-                            quantity++
-                        }
-                    }
-                }
-            }
+    return (mergeOfArrays[0]..mergeOfArrays[mergeOfArrays.size - 1]).count { value ->
+        a.all {
+            value % it == 0
+        } &&
+        b.all {
+            it % value == 0
         }
     }
-
-    return quantity
 }
 
 fun main(args: Array<String>) {
